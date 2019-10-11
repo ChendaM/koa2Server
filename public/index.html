@@ -11,7 +11,7 @@
 <body>
     首页
     <script>
-        postData('/index?haha=kkkk&last=8888',{data:'shuju'}).then(res => {
+        postData('/api/user',{data:'shuju'}).then(res => {
             console.log(res)
         }).catch(err => {
             console.log(err)

@@ -6,6 +6,9 @@ import onerror from 'koa-onerror' //错误处理
 import resource from 'koa-static' //静态资源托管
 import bodyParser from 'koa-bodyparser' //请求体JSON解析
 import path from 'path'
+import routers from './routers/index'
+//适配vue history的中间件
+// const { historyApiFallback } = require('koa2-connect-history-api-fallback')
 // import logger from 'koa-logger'; // 访问日志
 // import Moment from 'Moment'; // 格式化时间
 const { logger, accessLogger } = require('./utils/logger'); //日志输出
@@ -15,6 +18,8 @@ onerror(app); // 监听错误
 // 保存所有访问到日志文件中
 app.use(convert(accessLogger()));
 app.use(bodyParser())
+// handle fallback for HTML5 history API
+// app.use(historyApiFallback({ whiteList: ['/api','/ds'],index: '/_orders/index.html' }));
 app.use(resource(path.join(__dirname, '../public')))
 app.use(async (ctx, next) => {
     const start = new Date()
@@ -22,26 +27,9 @@ app.use(async (ctx, next) => {
     const ms = new Date() - start
     // console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
     // ctx.body = `<h2>hello world</h2><p>${Moment().format('YYYY-MM-DD HH:mm:ss')}</p>`;
-    let postData = ctx.request.body
-    console.log(ctx.request)
-    let url = ctx.url
-    // 从上下文的request对象中获取
-    let request = ctx.request
-    let req_query = request.query
-    let req_querystring = request.querystring
-
-    // 从上下文中直接获取
-    let ctx_query = ctx.query
-    let ctx_querystring = ctx.querystring
-
-    ctx.body = {
-        url,
-        req_query,
-        req_querystring,
-        ctx_query,
-        ctx_querystring
-    }
 })
+// routers
+app.use(routers.routes(), routers.allowedMethods());
 app.on('error', (error, ctx) => {
     // 保存错误到日志log文件中
     logger.error(error);
