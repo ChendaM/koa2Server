@@ -18,7 +18,15 @@
   },
   "homepage": "https://github.com/ChendaM/koa2Server#readme",
   "dependencies": {
-    "koa": "^2.8.2"
+    "koa": "^2.8.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-convert": "^1.2.0",
+    "koa-log4": "^2.3.2",
+    "koa-logger": "^3.2.1",
+    "koa-onerror": "^4.1.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

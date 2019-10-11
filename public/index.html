@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    首页
+    <script>
+        postData('/index?haha=kkkk&last=8888',{data:'shuju'}).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
+        function postData(url, data) {
+            // Default options are marked with *
+            return fetch(url, {
+                // body: JSON.stringify(data), // must match 'Content-Type' header
+                // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, same-origin, *omit
+                // headers: {
+                //     'user-agent': 'Mozilla/4.0 MDN Example',
+                //     'content-type': 'application/json'
+                // },
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                // mode: 'cors', // no-cors, cors, *same-origin
+                // redirect: 'follow', // manual, *follow, error
+                // referrer: 'no-referrer', // *client, no-referrer
+            })
+                .then(response => response.json()) // parses response to JSON
+        }
+    </script>
+</body>
+
+</html>
