@@ -4,7 +4,7 @@ import Koa from 'koa';
 import convert from 'koa-convert';
 import onerror from 'koa-onerror' //错误处理
 import resource from 'koa-static' //静态资源托管
-import bodyParser from 'koa-bodyparser' //请求体JSON解析
+import koaBody from 'koa-body' // 接收上传文件中间件
 import path from 'path'
 import routers from './routers/index'
 //适配vue history的中间件
@@ -17,11 +17,17 @@ const app = new Koa();
 onerror(app); // 监听错误
 // 保存所有访问到日志文件中
 app.use(convert(accessLogger()));
-app.use(bodyParser())
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 2000 * 1024 * 1024    // 设置上传文件大小最大限制，默认20M
+    }
+}))
 // handle fallback for HTML5 history API
 // app.use(historyApiFallback({ whiteList: ['/api','/ds'],index: '/_orders/index.html' }));
 app.use(resource(path.join(__dirname, '../public')))
 app.use(async (ctx, next) => {
+    logger.error(ctx);
     const start = new Date()
     await next();
     const ms = new Date() - start

@@ -10,23 +10,74 @@
 
 <body>
     首页
+    <form action="/api/login" method="POST">
+        <label for="name">名字</label><input type="text" name="name" id="name">
+        <label for="paw">密码</label><input type="text" name="paw" id="paw">
+        <input type="file" name='wenjian' id="wenjian">
+        <button type="submit">提交</button>
+        <img src="" alt="" id="testImg">
+        <img src="" alt="" id="base64Url">
+    </form>
+    <script src="./js/jquery.min.js"></script>
     <script>
-        postData('/api/user',{data:'shuju'}).then(res => {
-            console.log(res)
-        }).catch(err => {
-            console.log(err)
+        $('#wenjian').on('change', function (e) {
+            console.log(e.target.files[0])
+            formData.set('file', e.target.files[0])
+            ajaxTest(formData)
+            let file = e.target.files[0]
+            let imgUrl = URL.createObjectURL(file)
+            var reader = new FileReader()
+            let base64Url = reader.readAsDataURL(file)
+            reader.onload = function () {
+                var re = this.result;
+                console.log(file)
+                console.log(this.result)//'文件'file.name  '大小'file.size  '修改'file.lastModifiedDate     
+                $("#base64Url").attr("src", re);　　//赋值img
+            }
+            $('#testImg').attr('src', imgUrl)
         })
+        var formData = new FormData()
+        formData.append('a', '我是a')
+        formData.append('b', '我是b')
+        // postData('/api/login',formData).then(res => {
+        //     console.log(res)
+        // }).catch(err => {
+        //     console.log(err)
+        // })
+        var data = {
+            haha: 'xixi',
+            o: 'oo?'
+        }
+        function ajaxTest(data) {
+            $.ajax({
+                url: '/api/login',
+                dataType: 'json',
+                type: "post",
+                data: data,
+                async: false,
+                processData: false, // 使数据不做处理
+                contentType: false, // 不要设置Content-Type请求头
+                cache: false,
+                timeout: 10000,
+                success: function (res) {
+                    console.log(res)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
         function postData(url, data) {
             // Default options are marked with *
             return fetch(url, {
-                // body: JSON.stringify(data), // must match 'Content-Type' header
+                body: JSON.stringify(data), // must match 'Content-Type' header
                 // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 // credentials: 'same-origin', // include, same-origin, *omit
-                // headers: {
-                //     'user-agent': 'Mozilla/4.0 MDN Example',
-                //     'content-type': 'application/json'
-                // },
-                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'user-agent': 'Mozilla/4.0 MDN Example',
+                    'content-type': 'application/json'
+                },
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 // mode: 'cors', // no-cors, cors, *same-origin
                 // redirect: 'follow', // manual, *follow, error
                 // referrer: 'no-referrer', // *client, no-referrer

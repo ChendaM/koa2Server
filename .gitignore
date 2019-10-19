@@ -9,3 +9,4 @@ selenium-debug.log
 .vscode
 back-end/
 package-lock.json
+upload/
