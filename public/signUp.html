@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>登录</title>
+    <title>注册</title>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
@@ -14,9 +14,11 @@
     <div id="app">
         <el-header>header</el-header>
         <el-main>
-            <el-input v-model="userName" placeholder="账号"></el-input>
+            <el-input v-model="userName" placeholder="用户名字"></el-input>
+            <el-input v-model="email" placeholder="账号"></el-input>
             <el-input v-model="password" placeholder="密码"></el-input>
-            <el-button @click="login">登录</el-button>
+            <el-input v-model="desc" placeholder="描述"></el-input>
+            <el-button @click="login">注册</el-button>
         </el-main>
     </div>
     <script src="./js/vue.js"></script>
@@ -29,8 +31,10 @@
             el: '#app',
             data() {
                 return {
-                    userName: "test@qq.com",
-                    password: 123456
+                    userName: "testUserName",
+                    email: "test@qq.com",
+                    password: 123456,
+                    desc: "我是描述"
                 }
             },
             created() {
@@ -38,12 +42,14 @@
             methods: {
                 login() {
                     let data = {
-                        email: this.userName,
-                        password: this.password
+                        userName: this.userName,
+                        email: this.email,
+                        password: this.password,
+                        desc: this.desc
                     }
-                    axios.post('/user/signIn', data)
+                    axios.post('/user/signUp', data)
                         .then(function (response) {
-                            console.log(response);
+                            console.log(response.data);
                         })
                         .catch(function (error) {
                             console.log(error);
