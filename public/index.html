@@ -10,7 +10,7 @@
 
 <body>
     首页
-    <form action="/api/login" method="POST">
+    <form action="/upload/" method="POST">
         <label for="name">名字</label><input type="text" name="name" id="name">
         <label for="paw">密码</label><input type="text" name="paw" id="paw">
         <input type="file" name='wenjian' id="wenjian">
@@ -50,7 +50,7 @@
         }
         function ajaxTest(data) {
             $.ajax({
-                url: '/api/login',
+                url: '/upload/',
                 dataType: 'json',
                 type: "post",
                 data: data,

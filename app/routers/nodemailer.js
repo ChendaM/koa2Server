@@ -28,7 +28,7 @@ function sendmail(mail) {
             to: mail, // list of receivers
             subject: '测试邮件', // Subject line
             text: 'Nodejs之邮件发送', // plaintext body
-            html: "<h2>欢迎关注我的GitHub，一起学习Nodejs。https://github.com/Chen-xy</h2>"
+            html: "<h2>欢迎关注我的GitHub，一起学习Nodejs。https://www.baidu.com</h2>"
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -43,9 +43,16 @@ function sendmail(mail) {
 
 };
 const routers = router.get('/', async (ctx) => {
-    let s = await sendmail('xxxx@gmail.com')
-    console.log(s)
-    ctx.body = s
-
+    // 接收收件邮箱地址xxxx@gmail.com
+    if (ctx.query.email) {
+        let s = await sendmail(ctx.query.email)
+        console.log(s)
+        ctx.body = s
+    } else {
+        ctx.body = {
+            code: 400,
+            data: '缺少必要参数'
+        }
+    }
 })
 module.exports = routers
